@@ -7,25 +7,23 @@ import { ref } from 'vue';
 import DeleteTodo from './DeleteTodo.vue';
 const showStore = useShowStore()
 const todoStore = useTodoStore()
-const idStore = useIdsStore()
+// const idStore = useIdsStore()
 showStore.showDescription = ref(true)
 showStore.showTitle = ref(true)
 showStore.showDateUp = ref(true)
 showStore.showDateDown = ref(true)
 showStore.showStatus = ref(true)
-const ID = todoStore.id
-todoStore.getTask(ID)
-const props = defineProps({
-    id: {
-        type: Number,
-        required: true
-    },
-    task: {
-        type: Object,
-        required: true
-    },
+// const props = defineProps({
+//     id: {
+//         type: Number,
+//         required: true
+//     },
+//     task: {
+//         type: Object,
+//         required: true
+//     },
 
-})
+// })
 // const todo = todoStore.getTask(props.id)
 
 
@@ -67,7 +65,7 @@ const props = defineProps({
                                                     d="M23,36.1H11.6c-1.2,0-2.2,1-2.2,2.2s1,2.2,2.2,2.2H23c1.2,0,2.2-1,2.2-2.2S24.3,36.1,23,36.1z" />
                                             </g>
                                         </svg>
-                                        <h2 class="font-semibold text-xl" v-if="showStore.showTitle == true">{{task.title}}</h2>
+                                        <h2 class="font-semibold text-xl" v-if="showStore.showTitle == true">{{todoStore.task.title}}</h2>
                                         <button @click="showStore.showTitle = false; showStore.showInputTitle = true"
                                             class="text-end mr-4  hover:bg-gray-300 rounded transition-all duration-500 "><svg
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -229,7 +227,7 @@ const props = defineProps({
                             </div>
                             <div class="mt-16 text-end">
                                 <button class=" justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500" @click="showStore.showDeleteModal = true">DELETE</button>
-                                <DeleteTodo @close = "showStore.showDeleteModal = false" @confirm = "todoStore.deleteTask(id)" ></DeleteTodo>
+                                <DeleteTodo @close = "showStore.showDeleteModal = false" @confirm = "todoStore.deleteTask(todoStore.task.title)" ></DeleteTodo>
                             </div>
 
                         </div>

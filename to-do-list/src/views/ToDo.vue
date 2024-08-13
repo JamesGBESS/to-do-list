@@ -96,11 +96,10 @@ showStore.showCreateButton = ref(true)
                         <div v-for="task in todoStore.tasks" :key="task.id" class="flex flex-col">
                             <div class="flex my-2 mx-10" v-if="task.status == category.status">
                                 <div class=" h-[50px] w-[270px] bg-white border-2 border-blue-600 x rounded-l-xl flex"
-                                @click="showStore.showModal = true; todoStore.getTask(task.id); todoStore.id = task.id">
-
+                                @click="showStore.showModal = true; todoStore.getTask(task.title); todoStore.id = task.id">
                                     <p class="items-center mt-2 pl-3 font-semibold ">{{ task.title }}</p>
                             </div>
-                            <TodoModal @close="showStore.showModal = false" :id = "task.id" :task = "task"></TodoModal>
+                            <TodoModal @close="showStore.showModal = false"></TodoModal>
 
                             <div
                                 class="p-3 h-[50px] w-[48px] bg-white border-2 border-blue-600 rounded-r-xl flex">

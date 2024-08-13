@@ -1,15 +1,6 @@
 <script setup>
-import { defineProps } from 'vue';
 import { useShowStore } from '@/stores/show';
-import { useTodoStore } from '@/stores/todo';
 const showStore = useShowStore()
-const todoStore = useTodoStore()
-const props = defineProps({
-  id: {
-    type: Number,
-    required: true
-  }
-})
 
 
 
