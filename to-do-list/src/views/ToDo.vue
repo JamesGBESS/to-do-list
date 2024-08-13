@@ -11,7 +11,7 @@ showStore.showCreateButton = ref(true)
     <div class="bg-gray-100 h-screen">
         <div id="paragraph" class="flex justify-center items-center pt-16">
             <div v-if="showStore.showCreateButton == true"
-                class="border shadow-xl hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-10 flex items-center pl-2">
+                class="border shadow-xl hover:bg-gray-100 bg-white 3 h-[50px] w-[500px] transition-all duration-500 text-start mb-10 flex items-center pl-2">
                 <p class="pr-[380px] font-bold">
                     Add a todo </p> <button class="px-[6px] py-[6px] border rounded-md bg-blue-700"
                     @click="showStore.showCreateInput = true; showStore.showCreateButton = false">
@@ -50,7 +50,10 @@ showStore.showCreateButton = ref(true)
                         <input type="text"
                         class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none">
                         <input type="date"
+                        class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none">
+                        <input type="date"
                         class="border-2 rounded-r-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none">
+
 
 
                         
