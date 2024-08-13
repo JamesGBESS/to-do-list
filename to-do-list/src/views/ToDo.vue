@@ -1,7 +1,9 @@
 <script setup>
 import { useShowStore } from '@/stores/show'
 import { useTodoStore } from '@/stores/todo';
+import { useCategoryStore } from '@/stores/category';
 const todoStore = useTodoStore()
+const categoryStore = useCategoryStore()
 import { ref } from 'vue';
 import TodoModal from '@/components/TodoModal.vue';
 const showStore = useShowStore()
@@ -12,6 +14,8 @@ const dateDown = ref('')
 const setTask = () => {
     todoStore.createTask(title, content, dateUp, dateDown)
 }
+const bool = ref(false)
+console.log(bool)
 
 showStore.showCreateButton = ref(true)
 
@@ -21,8 +25,8 @@ showStore.showCreateButton = ref(true)
     <div class="bg-gray-100 h-screen">
         <div id="paragraph" class="flex justify-center items-center pt-16">
             <div v-if="showStore.showCreateButton == true"
-                class="border shadow-xl hover:bg-gray-100 bg-white 3 h-[50px] w-[500px] transition-all duration-500 text-start mb-10 flex items-center pl-2">
-                <p class="pr-[380px] font-bold">
+                class="border-2 rounded-xl border-blue-600 hover:bg-gray-100 bg-white 3 h-[50px] w-[500px] transition-all duration-500 text-start mb-10 flex items-center pl-2">
+                <p class="pr-[370px] font-bold">
                     Add a todo </p> <button class="px-[6px] py-[6px] border rounded-md bg-blue-700"
                     @click="showStore.showCreateInput = true; showStore.showCreateButton = false">
                     <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
@@ -76,25 +80,42 @@ showStore.showCreateButton = ref(true)
                             @click="showStore.showCreateInput = false; showStore.showCreateButton = true">Annuler</button>
                     </div>
                 </form>
-    
+
             </div>
         </div>
 
-        <div>
-            <div class="m-10 grid grid-cols-4">
-                <div v-for="task in todoStore.tasks" :key="task.id">
-                    <div class=" h-[300px] w-[300px] bg-white shadow-lg" @click="showStore.showModal = true;">
-                        <div class="flex flex-col">
-                            <p class="font-bold flex justify-center items-center pt-4 text-xl">{{ task.id }}</p>
+        <div class="grid grid-cols-3">
+            <div v-for="category in categoryStore.categories" :key="category.id">
 
-                            <p class="font-bold flex justify-center items-center pt-4 text-xl">{{ task.title }}</p>
-                            <p class="flex justify-center items-center pt-3 pl-3 pr-4">{{ task.content }}</p>
+                <div class="ml-10 w-[400px] min-h-[600px] bg-gray-200 border-2 rounded-xl border-blue-600">
+                    <div class=" grid grid-rows-4">
+                        <p class="flex justify-center items-center font-extrabold text-[20px]">{{ category.name }}</p>
+                        <div v-for="task in todoStore.tasks" :key="task.id" class="flex flex-col">
+                            <div class="flex my-2 mx-10">
+                                <div class=" h-[50px] w-[270px] bg-white border-2 border-blue-600  rounded-l-xl flex"
+                                @click="showStore.showModal = true;">
+                                
+                                    <p class="items-center mt-2 pl-3 font-semibold pr-[250px]">{{ task.title }}</p>
+                            </div>
+                            <div
+                                class="p-3 h-[50px] w-[48px] bg-white border-2 border-blue-600 rounded-r-xl flex">
+                                <input type="checkbox" class="text-end w-5 accent-blue-600" v-model="bool">
+
+                            </div>
+                            </div>
+
+
 
                         </div>
-
                     </div>
                 </div>
             </div>
+
+
+
+
+
         </div>
+
     </div>
 </template>

@@ -2,7 +2,20 @@ import { defineStore } from 'pinia'
 import { useIdsStore } from './id'
 export const useCategoryStore = defineStore('category', {
   state: () => ({
-    categories:JSON.parse(localStorage.getItem("categories")) || [],
+    categories:[
+        {
+            id: 1,
+            name:'TODO',
+        },
+        {
+            id: 2,
+            name:'DOING',
+        },
+        {
+            id: 3,
+            name:'DONE',
+        }
+    ],
    
   }),
   actions: {
