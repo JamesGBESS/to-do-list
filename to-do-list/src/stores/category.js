@@ -6,14 +6,17 @@ export const useCategoryStore = defineStore('category', {
         {
             id: 1,
             name:'TODO',
+            status: "Todo"
         },
         {
             id: 2,
             name:'DOING',
+            status: "Doing"
         },
         {
             id: 3,
             name:'DONE',
+            status: "Done"
         }
     ],
    

@@ -7,12 +7,16 @@ const categoryStore = useCategoryStore()
 import { ref } from 'vue';
 import TodoModal from '@/components/TodoModal.vue';
 const showStore = useShowStore()
-const title = ref('')
-const content = ref('')
-const dateUp = ref('')
-const dateDown = ref('')
+const task = {
+    title: '',
+    content: '',
+    downUp: '',
+    downDown: '',
+
+}
+ 
 const setTask = () => {
-    todoStore.createTask(title, content, dateUp, dateDown)
+    todoStore.createTask(task.title, task.content, task.dateUp, task.dateDown)
 }
 const bool = ref(false)
 console.log(bool)
@@ -21,7 +25,6 @@ showStore.showCreateButton = ref(true)
 
 </script>
 <template>
-    <TodoModal @close="showStore.showModal = false"></TodoModal>
     <div class="bg-gray-100 h-screen">
         <div id="paragraph" class="flex justify-center items-center pt-16">
             <div v-if="showStore.showCreateButton == true"
@@ -61,51 +64,50 @@ showStore.showCreateButton = ref(true)
                     <div class="flex">
                         <input type="text"
                             class="border-2 rounded-l-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[200px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
-                            v-model="title" placeholder="Title">
+                            v-model="task.title" placeholder="Title">
                         <input type="text"
                             class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
-                            v-model="content" placeholder="Description">
+                            v-model="task.content" placeholder="Description">
                         <input type="date"
                             class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
-                            v-model="dateUp">
+                            v-model="task.dateUp">
                         <input type="date"
                             class="border-2 rounded-r-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
-                            v-model="dateDown">
+                            v-model="task.dateDown">
                     </div>
                     <div class="flex gap-3">
-                        <button
+                        <a href="/">
+                            <button type="submit"
                             class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500"
                             @click="setTask(); showStore.showCreateInput = false; showStore.showCreateButton = true">Sauvegarder</button>
+                        </a>
                         <button class="rounded hover:bg-gray-300 py-1 px-4 font-bold transition-all duration-300"
                             @click="showStore.showCreateInput = false; showStore.showCreateButton = true">Annuler</button>
                     </div>
                 </form>
-
             </div>
         </div>
 
         <div class="grid grid-cols-3">
             <div v-for="category in categoryStore.categories" :key="category.id">
-
                 <div class="ml-10 w-[400px] min-h-[600px] bg-gray-200 border-2 rounded-xl border-blue-600">
                     <div class=" grid grid-rows-4">
                         <p class="flex justify-center items-center font-extrabold text-[20px]">{{ category.name }}</p>
                         <div v-for="task in todoStore.tasks" :key="task.id" class="flex flex-col">
-                            <div class="flex my-2 mx-10">
-                                <div class=" h-[50px] w-[270px] bg-white border-2 border-blue-600  rounded-l-xl flex"
-                                @click="showStore.showModal = true;">
-                                
-                                    <p class="items-center mt-2 pl-3 font-semibold pr-[250px]">{{ task.title }}</p>
+                            <div class="flex my-2 mx-10" v-if="task.status == category.status">
+                                <div class=" h-[50px] w-[270px] bg-white border-2 border-blue-600 x rounded-l-xl flex"
+                                @click="showStore.showModal = true; todoStore.getTask(task.id); todoStore.id = task.id">
+
+                                    <p class="items-center mt-2 pl-3 font-semibold ">{{ task.title }}</p>
                             </div>
+                            <TodoModal @close="showStore.showModal = false" :id = "task.id" :task = "task"></TodoModal>
+
                             <div
                                 class="p-3 h-[50px] w-[48px] bg-white border-2 border-blue-600 rounded-r-xl flex">
                                 <input type="checkbox" class="text-end w-5 accent-blue-600" v-model="bool">
 
                             </div>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>

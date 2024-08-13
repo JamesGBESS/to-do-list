@@ -1,15 +1,33 @@
 <script setup>
+import { defineProps } from 'vue';
 import { useShowStore } from '@/stores/show';
 import { useTodoStore } from '@/stores/todo';
+import { useIdsStore } from '@/stores/id';
 import { ref } from 'vue';
 import DeleteTodo from './DeleteTodo.vue';
 const showStore = useShowStore()
 const todoStore = useTodoStore()
+const idStore = useIdsStore()
 showStore.showDescription = ref(true)
 showStore.showTitle = ref(true)
 showStore.showDateUp = ref(true)
 showStore.showDateDown = ref(true)
 showStore.showStatus = ref(true)
+const ID = todoStore.id
+todoStore.getTask(ID)
+const props = defineProps({
+    id: {
+        type: Number,
+        required: true
+    },
+    task: {
+        type: Object,
+        required: true
+    },
+
+})
+// const todo = todoStore.getTask(props.id)
+
 
 </script>
 <template>
@@ -49,7 +67,7 @@ showStore.showStatus = ref(true)
                                                     d="M23,36.1H11.6c-1.2,0-2.2,1-2.2,2.2s1,2.2,2.2,2.2H23c1.2,0,2.2-1,2.2-2.2S24.3,36.1,23,36.1z" />
                                             </g>
                                         </svg>
-                                        <h2 class="font-semibold text-xl" v-if="showStore.showTitle == true">Title</h2>
+                                        <h2 class="font-semibold text-xl" v-if="showStore.showTitle == true">{{task.title}}</h2>
                                         <button @click="showStore.showTitle = false; showStore.showInputTitle = true"
                                             class="text-end mr-4  hover:bg-gray-300 rounded transition-all duration-500 "><svg
                                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -108,7 +126,7 @@ showStore.showStatus = ref(true)
                                     <div id="paragraph" class="mt-4" v-if="showStore.showDescription == true">
                                         <p
                                             class="border  bg-gray-300 py-3 rounded h-16 w-full transition-all duration-500 pl-4">
-                                            Description</p>
+                                            {{ todoStore.task.content }}</p>
                                     </div>
                                     <!-- Input pour mettre la description -->
                                     <form @submit.prevent="" class="flex flex-col mt-4"
@@ -148,7 +166,7 @@ showStore.showStatus = ref(true)
                                         <div v-if="showStore.showDateUp == true">
                                             <p @click="showStore.showInputDateUp = true; showStore.showDateUp = false"
                                                 class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
-                                                Date de debut</p>
+                                                {{ todoStore.task.dateUp }}</p>
                                         </div>
                                         <div v-if="showStore.showInputDateUp == true">
                                             <form @submit.prevent = "">
@@ -166,7 +184,7 @@ showStore.showStatus = ref(true)
                                         <div v-if="showStore.showDateDown == true">
                                             <p @click="showStore.showInputDateDown = true; showStore.showDateDown = false"
                                                 class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
-                                                Date de fin</p>
+                                                {{todoStore.task.dateDown}}</p>
                                         </div>
                                         <div v-if="showStore.showInputDateDown == true">
                                             <form @submit.prevent = "">
@@ -197,7 +215,7 @@ showStore.showStatus = ref(true)
                                     <div v-if="showStore.showStatus == true">
                                         <p @click="showStore.showInputStatus = true; showStore.showStatus = false"
                                             class="outline-none border pl-4 bg-white hover:bg-gray-100 transition-all duration-500 p-2 w-[680px] shadow rounded text-gray-500">
-                                            Done</p>
+                                            {{ todoStore.task.status }}</p>
                                     </div>
                                     <div v-if="showStore.showInputStatus == true">
                                         <input
@@ -211,7 +229,7 @@ showStore.showStatus = ref(true)
                             </div>
                             <div class="mt-16 text-end">
                                 <button class=" justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500" @click="showStore.showDeleteModal = true">DELETE</button>
-                                <DeleteTodo @close = "showStore.showDeleteModal = false" ></DeleteTodo>
+                                <DeleteTodo @close = "showStore.showDeleteModal = false" @confirm = "todoStore.deleteTask(id)" ></DeleteTodo>
                             </div>
 
                         </div>

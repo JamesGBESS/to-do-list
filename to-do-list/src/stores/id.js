@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 export const useIdsStore = defineStore('id', {
   state: () => ({
-    id: 0
+    id: 0,
+    getId: ''
   }),
   actions: {
     incrementId() {
