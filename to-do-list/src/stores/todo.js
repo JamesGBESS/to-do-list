@@ -5,10 +5,13 @@ export const useTodoStore = defineStore(STORE_NAME, {
   state: () => ({
     tasks:JSON.parse(localStorage.getItem("tasks"))||[],
     task: '',
-    id: ''
-   
+    id: '',
+    errors: []
   }),
   actions: {
+    trimmedValue(inputValue) {
+      return inputValue.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
+    },
     findTaskIndex(tasks, id) {
       const taskIndex = tasks.findIndex((task) => task.id === id)
       return taskIndex
@@ -18,6 +21,31 @@ export const useTodoStore = defineStore(STORE_NAME, {
         return task
     },
     createTask(title, content, dateUp, dateDown) {
+      this.errors = []
+      if (!title ||this.trimmedValue(title) == '') {
+        this.errors.push(
+          'Required!'
+        )
+      }
+      if (!content ||this.trimmedValue(content) == '') {
+        this.errors.push(
+          'Required!'
+        )
+      }
+      if (!dateUp ||this.trimmedValue(dateUp) == '') {
+        this.errors.push(
+          'Required!'
+        )
+      }
+      if (!dateDown ||this.trimmedValue(dateDown) == '') {
+        this.errors.push(
+          'Required!'
+        )
+      }
+
+      if (this.errors.length) {
+        return false
+      }
       useIdsStore().incrementId()
       const task = {
         id: useIdsStore().id,

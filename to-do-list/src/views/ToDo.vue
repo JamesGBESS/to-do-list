@@ -22,6 +22,11 @@ const bool = ref(false)
 console.log(bool)
 
 showStore.showCreateButton = ref(true)
+const err = () => {
+    if(todoStore.errors){
+    alert("Required")
+}
+}
 
 </script>
 <template>
@@ -79,7 +84,7 @@ showStore.showCreateButton = ref(true)
                         <a href="/">
                             <button type="submit"
                             class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500"
-                            @click="setTask(); showStore.showCreateInput = false; showStore.showCreateButton = true">Sauvegarder</button>
+                            @click="setTask(); showStore.showCreateInput = false; showStore.showCreateButton = true; err()">Sauvegarder</button>
                         </a>
                         <button class="rounded hover:bg-gray-300 py-1 px-4 font-bold transition-all duration-300"
                             @click="showStore.showCreateInput = false; showStore.showCreateButton = true">Annuler</button>
