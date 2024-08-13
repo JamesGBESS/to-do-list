@@ -1,8 +1,18 @@
 <script setup>
 import { useShowStore } from '@/stores/show'
+import { useTodoStore } from '@/stores/todo';
+const todoStore = useTodoStore()
 import { ref } from 'vue';
 import TodoModal from '@/components/TodoModal.vue';
 const showStore = useShowStore()
+const title = ref('')
+const content = ref('')
+const dateUp = ref('')
+const dateDown = ref('')
+const setTask = () => {
+    todoStore.createTask(title, content, dateUp, dateDown)
+}
+
 showStore.showCreateButton = ref(true)
 
 </script>
@@ -46,82 +56,45 @@ showStore.showCreateButton = ref(true)
                 <form action="">
                     <div class="flex">
                         <input type="text"
-                        class="border-2 rounded-l-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[200px] transition-all duration-500 text-start mb-2 flex items-center outline-none">
+                            class="border-2 rounded-l-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[200px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            v-model="title" placeholder="Title">
                         <input type="text"
-                        class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none">
+                            class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[500px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            v-model="content" placeholder="Description">
                         <input type="date"
-                        class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none">
+                            class="border-2 text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            v-model="dateUp">
                         <input type="date"
-                        class="border-2 rounded-r-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none">
-
-
-
-                        
-
-                    </div>                    <div class="flex gap-3">
+                            class="border-2 rounded-r-lg text-black border-blue-600 hover:bg-gray-100 bg-white 3 h-12 w-[210px] transition-all duration-500 text-start mb-2 flex items-center outline-none p-2"
+                            v-model="dateDown">
+                    </div>
+                    <div class="flex gap-3">
                         <button
                             class="bg-blue-600 hover:bg-blue-700 rounded py-1 px-4 text-white transition-all duration-500"
-                            @click="showStore.showCreateInput = false; showStore.showCreateButton = true">Sauvegarder</button>
+                            @click="setTask(); showStore.showCreateInput = false; showStore.showCreateButton = true">Sauvegarder</button>
                         <button class="rounded hover:bg-gray-300 py-1 px-4 font-bold transition-all duration-300"
                             @click="showStore.showCreateInput = false; showStore.showCreateButton = true">Annuler</button>
                     </div>
                 </form>
+    
             </div>
         </div>
 
-        <div class="m-10 grid grid-cols-4">
-            <div class=" h-[300px] w-[300px] bg-white shadow-lg" @click="showStore.showModal = true">
-                <div class="flex flex-col">
-                    <p class="font-bold flex justify-center items-center pt-4 text-xl">Title</p>
-                    <p class="flex justify-center items-center pt-3 pl-3 pr-4">Alii nullo quaerente vultus severitate
-                        adsimulata patrimonia sua in inmensum extollunt porrigitur, non divitiis eluxisse sed per bella
-                        saevissima, nec opibus nec victu nec indumentorum vilitate e</p>
-                       
+        <div>
+            <div class="m-10 grid grid-cols-4">
+                <div v-for="task in todoStore.tasks" :key="task.id">
+                    <div class=" h-[300px] w-[300px] bg-white shadow-lg" @click="showStore.showModal = true;">
+                        <div class="flex flex-col">
+                            <p class="font-bold flex justify-center items-center pt-4 text-xl">{{ task.id }}</p>
+
+                            <p class="font-bold flex justify-center items-center pt-4 text-xl">{{ task.title }}</p>
+                            <p class="flex justify-center items-center pt-3 pl-3 pr-4">{{ task.content }}</p>
+
+                        </div>
+
+                    </div>
                 </div>
-
             </div>
-            <div class=" h-[300px] w-[300px] bg-white shadow-lg mb-5">
-                <div class="flex flex-col">
-                    <p class="font-bold flex justify-center items-center pt-4 text-xl">Title</p>
-                    <p class="flex justify-center items-center pt-3 pl-3 pr-4">Alii nullo quaerente vultus severitate
-                        adsimulata patrimonia sua in inmensum extollunt porrigitur, non divitiis eluxisse sed per bella
-                        saevissima, nec opibus nec victu nec indumentorum vilitate e</p>
-                        <input type="checkbox" class="h-5 w-5 accent-blue-600">
-                </div>
-
-            </div>
-            <div class=" h-[300px] w-[300px] bg-white shadow-lg mb-5">
-                <div class="flex flex-col">
-                    <p class="font-bold flex justify-center items-center pt-4 text-xl">Title</p>
-                    <p class="flex justify-center items-center pt-3 pl-3 pr-4">Alii nullo quaerente vultus severitate
-                        adsimulata patrimonia sua in inmensum extollunt porrigitur, non divitiis eluxisse sed per bella
-                        saevissima, nec opibus nec victu nec indumentorum vilitate e</p>
-                        <input type="checkbox" class="h-5 w-5 accent-blue-600">
-                </div>
-
-            </div>
-            <div class=" h-[300px] w-[300px] bg-white shadow-lg mb-5">
-                <div class="flex flex-col">
-                    <p class="font-bold flex justify-center items-center pt-4 text-xl">Title</p>
-                    <p class="flex justify-center items-center pt-3 pl-3 pr-4">Alii nullo quaerente vultus severitate
-                        adsimulata patrimonia sua in inmensum extollunt porrigitur, non divitiis eluxisse sed per bella
-                        saevissima, nec opibus nec victu nec indumentorum vilitate e</p>
-                        <input type="checkbox" class="h-5 w-5 accent-blue-600">
-                </div>
-
-            </div>
-            <div class=" h-[300px] w-[300px] bg-white shadow-lg mb-5">
-                <div class="flex flex-col">
-                    <p class="font-bold flex justify-center items-center pt-4 text-xl">Title</p>
-                    <p class="flex justify-center items-center pt-3 pl-3 pr-4">Alii nullo quaerente vultus severitate
-                        adsimulata patrimonia sua in inmensum extollunt porrigitur, non divitiis eluxisse sed per bella
-                        saevissima, nec opibus nec victu nec indumentorum vilitate e</p>
-                        <input type="checkbox" class="h-5 w-5 accent-blue-600">
-                </div>
-
-            </div>
-
-
         </div>
     </div>
 </template>

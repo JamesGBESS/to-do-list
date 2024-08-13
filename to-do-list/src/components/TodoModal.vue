@@ -1,8 +1,10 @@
 <script setup>
 import { useShowStore } from '@/stores/show';
+import { useTodoStore } from '@/stores/todo';
 import { ref } from 'vue';
 import DeleteTodo from './DeleteTodo.vue';
 const showStore = useShowStore()
+const todoStore = useTodoStore()
 showStore.showDescription = ref(true)
 showStore.showTitle = ref(true)
 showStore.showDateUp = ref(true)
@@ -47,7 +49,6 @@ showStore.showStatus = ref(true)
                                                     d="M23,36.1H11.6c-1.2,0-2.2,1-2.2,2.2s1,2.2,2.2,2.2H23c1.2,0,2.2-1,2.2-2.2S24.3,36.1,23,36.1z" />
                                             </g>
                                         </svg>
-
                                         <h2 class="font-semibold text-xl" v-if="showStore.showTitle == true">Title</h2>
                                         <button @click="showStore.showTitle = false; showStore.showInputTitle = true"
                                             class="text-end mr-4  hover:bg-gray-300 rounded transition-all duration-500 "><svg
@@ -58,12 +59,7 @@ showStore.showStatus = ref(true)
                                                     fill="#222222" />
                                             </svg>
                                         </button>
-
-
-
-
                                     </div>
-
                                     <form @submit.prevent="" class="gap-2 pl-10"
                                         v-if="showStore.showInputTitle == true">
                                         <input type="text"
@@ -77,8 +73,6 @@ showStore.showStatus = ref(true)
                                                 class="rounded hover:bg-gray-300 py-1 px-4 font-bold transition-all duration-300">Annuler</button>
                                         </div>
                                     </form>
-
-
                                 </div>
                                 <button class="right-0 absolute hover:bg-gray-300 rounded-full p-2"
                                     @click="$emit('close')">
@@ -108,10 +102,7 @@ showStore.showStatus = ref(true)
                                             <button
                                                 @click="showStore.showTextarea = true; showStore.showDescription = false"
                                                 class="mr-4 bg-gray-300 hover:bg-gray-400 rounded py-1 px-4 transition-all duration-500 ">Modifier</button>
-
                                         </div>
-
-
                                     </div>
                                     <!-- La description n'existe pas encore -->
                                     <div id="paragraph" class="mt-4" v-if="showStore.showDescription == true">

@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia'
 import { useIdsStore } from './id'
-const STORE_NAME = 'todo'
-export const useTodoStore = defineStore(STORE_NAME, {
+export const useCategoryStore = defineStore('category', {
   state: () => ({
-    tasks:JSON.parse(localStorage.getItem("tasks"))||[],
+    categories:JSON.parse(localStorage.getItem("categories")) || [],
    
   }),
   actions: {
@@ -24,22 +23,4 @@ export const useTodoStore = defineStore(STORE_NAME, {
       this.tasks.push(task)
       localStorage.setItem("tasks", JSON.stringify(this.tasks))
       console.log(this.tasks)
-    },
-    // updateTask(id, newTitle = null, newContent = null, newDateUp = null, newDateDown = null) {
-    //   const task = this.tasks.find((task) => task.id === id)
-    //   const newTask = {
-    //     title: newTitle,
-    //     content: newContent,
-    //     dateUp: newDateUp,
-    //     dateDown: newDateDown
-    //   }
-    // },
-    deleteTask() {
-        
-    },
-
-
-    
-  }
-  
-})
+    }}})
